@@ -25,6 +25,20 @@ async function main() {
     Exchange: exchange.target
   };
 
+  console.log("Verifying contracts on Etherscan...");
+
+  await hre.run("verify:verify", {
+    address: aura.target,
+    constructorArguments: [],
+  });
+
+  await hre.run("verify:verify", {
+    address: exchange.target,
+    constructorArguments: [aura.target],
+  });
+
+  console.log("Contracts verified on Etherscan");
+
   fs.writeFileSync("../src/contract-addresses.json", JSON.stringify(addresses, null, 2));
   console.log("Contract addresses saved to ../src/contract-addresses.json");
 }
